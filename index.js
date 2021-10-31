@@ -19,6 +19,7 @@ const run = async () => {
         await client.connect();
         const database = client.db("bangladesh_tour_planner");
         const tourPlansCollection = database.collection("tour_plan");
+        const userCollection = database.collection("user");
 
         // Get tour plan
         app.get('/tourPlans', async (req, res) => {
@@ -34,6 +35,13 @@ const run = async () => {
             const query = { _id: ObjectId(id) };
             const result = await tourPlansCollection.findOne(query);
             res.send(result);
+        })
+
+        // Add user
+        app.post('/buyTicket', async (req, res) => {
+            const user = req.body;
+            const result = await userCollection.insertOne(user);
+            res.json(result);
         })
 
     }
